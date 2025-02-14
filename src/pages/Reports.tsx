@@ -1,34 +1,12 @@
 
 import { useState } from "react";
 import { DashboardSidebar } from "@/components/DashboardSidebar";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  FileText,
-  Download,
-  Mail,
-  Calendar,
-  RefreshCw,
-  Filter,
-} from "lucide-react";
+import { FileText, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+import { ReportFilters } from "@/components/reports/ReportFilters";
+import { ReportsList } from "@/components/reports/ReportsList";
+import { ReportMetrics } from "@/components/reports/ReportMetrics";
 
 // Mock data - replace with API calls later
 const mockReports = [
@@ -110,107 +88,21 @@ export default function Reports() {
               </div>
 
               {/* Filters */}
-              <Card className="p-6">
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <div className="flex-1">
-                    <Label htmlFor="reportType">Report Type</Label>
-                    <Select
-                      value={reportType}
-                      onValueChange={setReportType}
-                    >
-                      <SelectTrigger id="reportType">
-                        <SelectValue placeholder="Select report type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Types</SelectItem>
-                        <SelectItem value="performance">Performance</SelectItem>
-                        <SelectItem value="market">Market Analysis</SelectItem>
-                        <SelectItem value="customer">Customer Behavior</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="flex-1">
-                    <Label htmlFor="dateRange">Date Range</Label>
-                    <Select
-                      value={dateRange}
-                      onValueChange={setDateRange}
-                    >
-                      <SelectTrigger id="dateRange">
-                        <SelectValue placeholder="Select date range" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="7d">Last 7 days</SelectItem>
-                        <SelectItem value="30d">Last 30 days</SelectItem>
-                        <SelectItem value="90d">Last 90 days</SelectItem>
-                        <SelectItem value="custom">Custom Range</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="flex-1">
-                    <Label htmlFor="search">Search Reports</Label>
-                    <Input
-                      id="search"
-                      placeholder="Search by name or type..."
-                    />
-                  </div>
-                </div>
-              </Card>
+              <ReportFilters
+                reportType={reportType}
+                setReportType={setReportType}
+                dateRange={dateRange}
+                setDateRange={setDateRange}
+              />
+
+              {/* Metrics */}
+              <ReportMetrics />
 
               {/* Reports List */}
-              <Card className="p-6">
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Report Name</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {mockReports.map((report) => (
-                        <TableRow key={report.id}>
-                          <TableCell className="font-medium">
-                            {report.name}
-                          </TableCell>
-                          <TableCell>{report.date}</TableCell>
-                          <TableCell>{report.type}</TableCell>
-                          <TableCell>
-                            <span
-                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                report.status === "Completed"
-                                  ? "bg-green-100 text-green-800"
-                                  : "bg-yellow-100 text-yellow-800"
-                              }`}
-                            >
-                              {report.status}
-                            </span>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex gap-2">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => handleEmailReport(report.id)}
-                              >
-                                <Mail className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                              >
-                                <Download className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </Card>
+              <ReportsList 
+                reports={mockReports}
+                onEmailReport={handleEmailReport}
+              />
             </div>
           </div>
         </main>

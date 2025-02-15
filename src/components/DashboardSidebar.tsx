@@ -50,7 +50,7 @@ export function DashboardSidebar() {
       {/* Mobile sidebar backdrop */}
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-gray-600/75 lg:hidden",
+          "fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden",
           collapsed ? "hidden" : "block"
         )}
         onClick={() => setCollapsed(true)}
@@ -59,48 +59,50 @@ export function DashboardSidebar() {
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:w-auto flex flex-col",
+          "fixed top-0 left-0 z-50 h-full w-72 border-r bg-background transition-transform duration-300 ease-in-out lg:translate-x-0 lg:relative lg:w-72",
           collapsed ? "-translate-x-full" : "translate-x-0"
         )}
       >
-        <div className="flex items-center justify-between h-16 px-6 border-b bg-insight-600 text-white">
-          <Link to="/dashboard" className="text-xl font-semibold">
-            EcomDecisions
+        <div className="flex h-16 items-center gap-2 border-b px-6">
+          <Link to="/dashboard" className="flex items-center gap-2">
+            <span className="text-xl font-semibold text-insight-600">EcomDecisions</span>
           </Link>
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setCollapsed(true)}
-            className="lg:hidden text-white hover:bg-insight-700"
+            className="lg:hidden ml-auto"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
         </div>
 
-        <nav className="flex-1 p-4 space-y-1 bg-gradient-to-b from-gray-50 to-white">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              to={item.href}
-              className={cn(
-                "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors",
-                location.pathname === item.href
-                  ? "bg-insight-50 text-insight-600 shadow-sm"
-                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-              )}
-            >
-              <item.icon className="mr-3 h-5 w-5" />
-              {item.name}
-            </Link>
-          ))}
-        </nav>
+        <div className="flex flex-col h-[calc(100vh-4rem)]">
+          <nav className="flex-1 space-y-1 p-4">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  location.pathname === item.href
+                    ? "bg-accent text-accent-foreground"
+                    : "hover:bg-accent hover:text-accent-foreground"
+                )}
+              >
+                <item.icon className="h-4 w-4" />
+                {item.name}
+              </Link>
+            ))}
+          </nav>
 
-        <div className="p-4 border-t">
-          <div className="px-4 py-3 bg-insight-50 rounded-lg">
-            <p className="text-sm font-medium text-insight-600">Decision Hub</p>
-            <p className="text-xs text-gray-600 mt-1">
-              Make data-driven decisions for your e-commerce business
-            </p>
+          <div className="mt-auto p-4">
+            <div className="rounded-lg bg-insight-50 p-4">
+              <p className="text-sm font-medium text-insight-600">Decision Hub</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Make data-driven decisions for your e-commerce business
+              </p>
+            </div>
           </div>
         </div>
       </div>

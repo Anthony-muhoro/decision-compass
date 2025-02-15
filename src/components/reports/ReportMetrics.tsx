@@ -14,45 +14,48 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const timelineData = [
-  { name: "Jan", reports: 4, completed: 3 },
-  { name: "Feb", reports: 6, completed: 5 },
-  { name: "Mar", reports: 8, completed: 7 },
-  { name: "Apr", reports: 5, completed: 4 },
-  { name: "May", reports: 7, completed: 6 },
+  { name: "Jan", sales: 4500, customers: 350 },
+  { name: "Feb", sales: 6200, customers: 420 },
+  { name: "Mar", sales: 8100, customers: 550 },
+  { name: "Apr", sales: 5300, customers: 380 },
+  { name: "May", sales: 7400, customers: 480 },
 ];
 
-const typeData = [
-  { type: "Performance", count: 15 },
-  { type: "Market", count: 12 },
-  { type: "Customer", count: 8 },
-  { type: "Financial", count: 10 },
+const categoryData = [
+  { type: "Electronics", revenue: 15000 },
+  { type: "Clothing", revenue: 12000 },
+  { type: "Home & Garden", revenue: 8000 },
+  { type: "Beauty", revenue: 10000 },
 ];
 
 export function ReportMetrics() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Report Generation Timeline</h3>
+        <h3 className="text-lg font-semibold mb-4">Sales & Customer Growth</h3>
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={timelineData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
-              <YAxis />
+              <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
+              <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
               <Tooltip />
               <Area
+                yAxisId="left"
                 type="monotone"
-                dataKey="reports"
-                stackId="1"
+                dataKey="sales"
                 stroke="#8884d8"
                 fill="#8884d8"
+                name="Sales ($)"
               />
               <Area
+                yAxisId="right"
                 type="monotone"
-                dataKey="completed"
-                stackId="1"
+                dataKey="customers"
                 stroke="#82ca9d"
                 fill="#82ca9d"
+                name="Customers"
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -60,15 +63,15 @@ export function ReportMetrics() {
       </Card>
 
       <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Reports by Type</h3>
+        <h3 className="text-lg font-semibold mb-4">Revenue by Category</h3>
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={typeData}>
+            <BarChart data={categoryData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="type" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="count" fill="#8884d8" />
+              <Bar dataKey="revenue" fill="#8884d8" name="Revenue ($)" />
             </BarChart>
           </ResponsiveContainer>
         </div>

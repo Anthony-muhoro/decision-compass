@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
-  BarChart,
-  FileText,
+  ShoppingCart,
+  Users,
+  ChartBar,
+  DollarSign,
   Menu,
   ChevronLeft,
 } from "lucide-react";
@@ -13,19 +15,29 @@ import { useState } from "react";
 
 const navigation = [
   {
-    name: "Overview",
+    name: "Sales Overview",
     href: "/dashboard",
     icon: LayoutDashboard,
   },
   {
-    name: "Analysis",
+    name: "Products Performance",
     href: "/dashboard/analysis",
-    icon: BarChart,
+    icon: ShoppingCart,
   },
   {
-    name: "Reports",
+    name: "Customer Analytics",
     href: "/dashboard/reports",
-    icon: FileText,
+    icon: Users,
+  },
+  {
+    name: "Market Trends",
+    href: "/dashboard/market",
+    icon: ChartBar,
+  },
+  {
+    name: "Financial Metrics",
+    href: "/dashboard/finance",
+    icon: DollarSign,
   },
 ];
 
@@ -47,34 +59,34 @@ export function DashboardSidebar() {
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 bg-white border-r transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:w-auto flex flex-col",
+          "fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:w-auto flex flex-col",
           collapsed ? "-translate-x-full" : "translate-x-0"
         )}
       >
-        <div className="flex items-center justify-between h-16 px-4 border-b">
-          <Link to="/dashboard" className="text-xl font-semibold text-insight-600">
-            DecisionCompass
+        <div className="flex items-center justify-between h-16 px-6 border-b bg-insight-600 text-white">
+          <Link to="/dashboard" className="text-xl font-semibold">
+            EcomDecisions
           </Link>
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setCollapsed(true)}
-            className="lg:hidden"
+            className="lg:hidden text-white hover:bg-insight-700"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
         </div>
 
-        <nav className="flex-1 p-4 space-y-1">
+        <nav className="flex-1 p-4 space-y-1 bg-gradient-to-b from-gray-50 to-white">
           {navigation.map((item) => (
             <Link
               key={item.name}
               to={item.href}
               className={cn(
-                "flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors",
+                "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors",
                 location.pathname === item.href
-                  ? "bg-insight-50 text-insight-600"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  ? "bg-insight-50 text-insight-600 shadow-sm"
+                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
               )}
             >
               <item.icon className="mr-3 h-5 w-5" />
@@ -82,6 +94,15 @@ export function DashboardSidebar() {
             </Link>
           ))}
         </nav>
+
+        <div className="p-4 border-t">
+          <div className="px-4 py-3 bg-insight-50 rounded-lg">
+            <p className="text-sm font-medium text-insight-600">Decision Hub</p>
+            <p className="text-xs text-gray-600 mt-1">
+              Make data-driven decisions for your e-commerce business
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Mobile toggle button */}
